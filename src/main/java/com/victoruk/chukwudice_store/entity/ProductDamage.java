@@ -1,6 +1,5 @@
-package com.victoruk.chukwudice_store;
+package com.victoruk.chukwudice_store.entity;
 
-import com.victoruk.chukwudice_store.entity.Product;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -31,4 +30,3 @@ public class ProductDamage {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 }
-

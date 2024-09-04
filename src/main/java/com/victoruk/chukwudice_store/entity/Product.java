@@ -1,6 +1,5 @@
 package com.victoruk.chukwudice_store.entity;
 
-import com.victoruk.chukwudice_store.ProductDamage;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -37,7 +36,7 @@ public class Product {
     private LocalDate updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")  // Assuming the foreign key column is 'category_id'
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -47,6 +46,15 @@ public class Product {
     private List<CartItem> cartItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
     private List<ProductDamage> productDamages = new ArrayList<>();
+
+    @OneToOne(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Discount discount;
+
+
+
 
 }

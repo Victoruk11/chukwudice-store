@@ -22,7 +22,7 @@ public class Order {
 
         @Enumerated(EnumType.STRING)
         @Column(name = "order_status", nullable = false, length = 20)
-        private OderStatus oderStatus;
+        private OrderStatus oderStatus;
 
         @Enumerated(EnumType.STRING)
         @Column(name = "payment_status", nullable = false, length = 20)

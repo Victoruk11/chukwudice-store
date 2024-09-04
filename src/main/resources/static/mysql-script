@@ -1,0 +1,153 @@
+DROP DATABASE chukwudice_store;
+
+CREATE DATABASE chukwudice_store;
+
+USE chukwudice_store;
+
+-- Create the users table first
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    role VARCHAR(20),
+    created_at DATE,
+    updated_at DATE,
+    INDEX idx_email (email)
+);
+
+-- Create the categories table
+CREATE TABLE categories (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_at DATE,
+    updated_at DATE
+);
+
+-- Create the products table with a category reference
+CREATE TABLE products (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    category_id BIGINT,  -- Foreign key to categories table
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock_quantity INT DEFAULT 0,
+    expiry_date DATE,  -- Column to track product expiration
+    created_at DATE,
+    updated_at DATE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+    INDEX idx_category_id (category_id)
+);
+
+-- Create the product_images table
+CREATE TABLE product_images (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT,
+    image_url VARCHAR(255) NOT NULL,  -- URL or path to the product image
+    alt_text VARCHAR(255),  -- Alternative text for accessibility
+    created_at DATE,
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    INDEX idx_product_id_images (product_id)
+);
+
+-- Create the discounts table
+CREATE TABLE discounts (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT,
+    discount_percentage DECIMAL(5, 2) NOT NULL,  -- Example: 10.00 for 10% discount
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    created_at DATE,
+    updated_at DATE,
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    INDEX idx_product_id_discounts (product_id)
+);
+
+-- Create the carts table
+CREATE TABLE carts (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    total_price DECIMAL(10, 2) DEFAULT 0.00,  -- Stores the total cart price
+    created_at DATE,
+    updated_at DATE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Create the cart_items table
+CREATE TABLE cart_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cart_id BIGINT,
+    product_id BIGINT,
+    quantity INT NOT NULL DEFAULT 1,
+    price DECIMAL(10, 2) NOT NULL,  -- Price when the item was added to the cart
+    created_at DATE,
+    updated_at DATE,
+    FOREIGN KEY (cart_id) REFERENCES carts(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- Create the orders table
+CREATE TABLE orders (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    total_amount DECIMAL(10, 2) NOT NULL,  -- Stores the final total of the order
+    order_status VARCHAR(20) NOT NULL DEFAULT 'pending',  -- Tracks the order status (pending, shipped, etc.)
+    payment_status VARCHAR(20) NOT NULL DEFAULT 'unpaid',  -- Payment status (e.g., unpaid, paid)
+    created_at DATE,
+    updated_at DATE,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    INDEX idx_order_status (order_status), -- Updated to use order_status
+    INDEX idx_payment_status (payment_status) -- Added index for payment_status
+);
+
+-- Create the order_items table
+CREATE TABLE order_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_id BIGINT,
+    product_id BIGINT,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,  -- Price locked in when the order was placed
+    discount_applied DECIMAL(10, 2) DEFAULT 0.00,  -- Any discount applied
+    status VARCHAR(20) DEFAULT 'pending',  -- Status of the item in the order (optional)
+    created_at DATE,
+    updated_at DATE,
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    INDEX idx_order_id (order_id),
+    INDEX idx_product_id (product_id)
+);
+
+-- Create the delivery_addresses table
+CREATE TABLE delivery_addresses (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    order_id BIGINT,
+    address_line1 VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20),
+    created_at DATE,
+    updated_at DATE,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+-- Create the product_damages table
+CREATE TABLE product_damages (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    quantity_damaged INT NOT NULL,
+    damage_date DATE,
+    reason VARCHAR(255),  -- Reason for the damage (optional)
+    photo_url VARCHAR(255),  -- URL or path to the photo of the damage (optional)
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- Optional Indexes
+CREATE INDEX idx_user_id ON orders(user_id);
+CREATE INDEX idx_user_id_cart ON carts(user_id);
+CREATE INDEX idx_cart_id ON cart_items(cart_id);
+CREATE INDEX idx_product_id_cart ON cart_items(product_id);
