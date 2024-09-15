@@ -12,28 +12,38 @@ public class Address {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Column(name = "address_line1", nullable = false)
+        @Column(name = "address_line1")
         private String addressLine1;
 
-        @Column(name = "city", nullable = false)
+        @Column(name = "city")
         private String city;
 
-        @Column(name = "state", nullable = false)
+        @Column(name = "state")
         private String state;
 
-        @Column(name = "country", nullable = false)
+        @Column(name = "country")
         private String country;
 
         @Column(name = "phone_number")
         private String phoneNumber;
 
         @OneToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "user_id", nullable = false)
+        @JoinColumn(name = "user_id")
         private User user;
 
         @OneToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "order_id", nullable = false)
+        @JoinColumn(name = "order_id")
         private Order order;
+
+
+
+//        @ManyToOne(fetch = FetchType.LAZY)
+//        @JoinColumn(name = "order_id")
+//        private Order order;
+//
+//        @ManyToOne(fetch = FetchType.EAGER)
+//        @JoinColumn(name = "user_id")
+//        private User user;
 
     }
 

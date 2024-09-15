@@ -28,6 +28,6 @@ public class Category {
     @Column(name = "updated_at", nullable = false)
     private LocalDate updatedAt;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 }

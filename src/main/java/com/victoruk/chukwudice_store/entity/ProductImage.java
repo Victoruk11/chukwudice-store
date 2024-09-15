@@ -23,6 +23,7 @@ public class ProductImage {
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 
-    @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "product_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
     private Product product;
 }

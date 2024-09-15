@@ -35,7 +35,7 @@ public class Product {
     @Column(name = "updated_at",  nullable = false)
     private LocalDate updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 

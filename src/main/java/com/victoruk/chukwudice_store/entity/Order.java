@@ -20,9 +20,12 @@ public class Order {
         @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
         private BigDecimal totalAmount;
 
+        @Column(name = "order_confirmation_code", nullable = false, length = 20)
+        private String orderConfirmationCode;
+
         @Enumerated(EnumType.STRING)
         @Column(name = "order_status", nullable = false, length = 20)
-        private OrderStatus oderStatus;
+        private OrderStatus orderStatus;
 
         @Enumerated(EnumType.STRING)
         @Column(name = "payment_status", nullable = false, length = 20)

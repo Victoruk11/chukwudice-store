@@ -1,6 +1,7 @@
 package com.victoruk.chukwudice_store.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.victoruk.chukwudice_store.entity.Discount;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -19,8 +20,8 @@ public class ProductDTO {
     private LocalDate expiryDate;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-    private CategoryDTO category;
+    private Discount discount;
     private List<ProductImageDTO> productImages = new ArrayList<>();
-    private List<CartItemDTO> cartItems  = new ArrayList<>();
-    private List<ProductDamageDTO> productDamages  = new ArrayList<>();
+
+
 }

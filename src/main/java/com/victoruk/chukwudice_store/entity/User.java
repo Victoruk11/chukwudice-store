@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,12 +40,14 @@ public class User implements UserDetails {
     private Role role;
 
     @CreatedDate
-    @Column(name = "created_at" , nullable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at" , nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now(); // Initialize with current time
+
 
     @LastModifiedDate
     @Column(name = "updated_at" , nullable = false)
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now(); // Initialize with current time
+
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Cart cart;
@@ -82,7 +85,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override

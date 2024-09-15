@@ -56,7 +56,8 @@ public class JwtService {
     public String generateToken(User user){
         String token = Jwts
                 .builder()
-                .subject(user.getEmail())
+                .subject(user.getUsername())  // it was set as user.getemail before, after giving
+                                               // error message i have to change it to user.getusername. then it worked perfectly
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis()  + 24 * 60*60*1000 ))
                 .signWith(getSigninKey())

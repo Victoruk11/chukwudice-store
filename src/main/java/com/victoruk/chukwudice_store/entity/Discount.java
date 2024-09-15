@@ -30,7 +30,8 @@ public class Discount {
     @Column(name = "updated_at" , nullable = false)
     private LocalDate updatedAt;
 
-    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "product_id")
+    @OneToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
 }
