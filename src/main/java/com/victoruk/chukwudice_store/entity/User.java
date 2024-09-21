@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
+
+
 @Data
+@Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -25,8 +27,7 @@ public class User implements UserDetails {
 
     @Column(name = "username")
     private String userName;
-
-
+    
     @Column(name = "email" , nullable = false, unique = true)
     private String email;
 
@@ -57,6 +58,7 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Address address;
+
 
     public Role getRole() {        //manual added to check the error
         return role;

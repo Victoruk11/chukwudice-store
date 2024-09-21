@@ -1,8 +1,9 @@
 package com.victoruk.chukwudice_store.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import com.victoruk.chukwudice_store.entity.Role;
-import lombok.Builder;
+
 import lombok.Data;
 
 import java.util.List;
@@ -17,12 +18,15 @@ public class Response {
 
     // Authentication-related fields
     private String token;
+
     private Role role;
+
     private String expirationTime;
     private String orderConfirmationCode;
 
     // Dynamic payload field for both single DTOs and lists of DTOs
     private Map<String, Object> data;
+
 
     public int getStatusCode() {
         return statusCode;

@@ -1,10 +1,12 @@
 package com.victoruk.chukwudice_store.dto;
 
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.Data;
 
 @
 Data
+
 public class LoginRequest {
 
     @NotBlank(message = "Email is required")
@@ -28,4 +30,5 @@ public class LoginRequest {
     public void setPassWord(@NotBlank(message = "password is required") String passWord) {
         this.passWord = passWord;
     }
+
 }

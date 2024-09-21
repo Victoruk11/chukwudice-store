@@ -1,4 +1,4 @@
-package com.victoruk.chukwudice_store.service.userserviceinterface;
+package com.victoruk.chukwudice_store.service.interfac;
 
 import com.victoruk.chukwudice_store.dto.LoginRequest;
 import com.victoruk.chukwudice_store.dto.Response;
